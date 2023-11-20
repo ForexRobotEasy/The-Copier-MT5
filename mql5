@@ -1,0 +1,128 @@
+
+// Program Name: The Copier MT5
+// Developer's Site: forexroboteasy.com
+// Development Name: Forex Robot Easy Team
+
+// Trade copying function for MT4 to MT5
+void CopyFromMT4toMT5(int ticket)
+{
+    // Get trade details from MT4
+    double price = MarketInfo(Symbol(), MODE_BID);
+    double lotSize = OrderLots();
+    int orderType = OrderType();
+
+    // Copy trade to MT5
+    int copyTicket = OrderSend(Symbol(), orderType, lotSize, price, 0, 0, 0, 'MT4 to MT5 Copy', 0, 0, clrNONE);
+
+    // Check if trade copying was successful
+    if (copyTicket > 0)
+    {
+        Print('Trade copied successfully from MT4 to MT5. Copy Ticket: ', copyTicket);
+    }
+    else
+    {
+        Print('Trade copying from MT4 to MT5 failed. Error: ', GetLastError());
+    }
+}
+
+// Trade copying function for MT5 to MT4
+void CopyFromMT5toMT4(int ticket)
+{
+    // Get trade details from MT5
+    double price = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+    double lotSize = PositionGetDouble(POSITION_VOLUME);
+    int orderType = PositionGetInteger(POSITION_TYPE);
+
+    // Copy trade to MT4
+    int copyTicket = OrderSend(Symbol(), orderType, lotSize, price, 0, 0, 0, 'MT5 to MT4 Copy', 0, 0, clrNONE);
+
+    // Check if trade copying was successful
+    if (copyTicket > 0)
+    {
+        Print('Trade copied successfully from MT5 to MT4. Copy Ticket: ', copyTicket);
+    }
+    else
+    {
+        Print('Trade copying from MT5 to MT4 failed. Error: ', GetLastError());
+    }
+}
+
+// Trade copying function for MT4 to MT4
+void CopyFromMT4toMT4(int ticket)
+{
+    // Get trade details from MT4
+    double price = MarketInfo(Symbol(), MODE_BID);
+    double lotSize = OrderLots();
+    int orderType = OrderType();
+
+    // Copy trade to another MT4 terminal
+    int copyTicket = OrderSend(Symbol(), orderType, lotSize, price, 0, 0, 0, 'MT4 to MT4 Copy', 0, 0, clrNONE);
+
+    // Check if trade copying was successful
+    if (copyTicket > 0)
+    {
+        Print('Trade copied successfully from MT4 to another MT4 terminal. Copy Ticket: ', copyTicket);
+    }
+    else
+    {
+        Print('Trade copying from MT4 to another MT4 terminal failed. Error: ', GetLastError());
+    }
+}
+
+// Trade copying function for MT5 to MT5
+void CopyFromMT5toMT5(int ticket)
+{
+    // Get trade details from MT5
+    double price = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+    double lotSize = PositionGetDouble(POSITION_VOLUME);
+    int orderType = PositionGetInteger(POSITION_TYPE);
+
+    // Copy trade to another MT5 terminal
+    int copyTicket = OrderSend(Symbol(), orderType, lotSize, price, 0, 0, 0, 'MT5 to MT5 Copy', 0, 0, clrNONE);
+
+    // Check if trade copying was successful
+    if (copyTicket > 0)
+    {
+        Print('Trade copied successfully from MT5 to another MT5 terminal. Copy Ticket: ', copyTicket);
+    }
+    else
+    {
+        Print('Trade copying from MT5 to another MT5 terminal failed. Error: ', GetLastError());
+    }
+}
+
+// Main function for trade copying
+void OnTick()
+{
+    // Check if trade copying is enabled
+    if (IsTradeAllowed())
+    {
+        // Copy trade from MT4 to MT5
+        CopyFromMT4toMT5(OrderTicket());
+
+        // Copy trade from MT5 to MT4
+        CopyFromMT5toMT4(OrderTicket());
+
+        // Copy trade from MT4 to another MT4 terminal
+        CopyFromMT4toMT4(OrderTicket());
+
+        // Copy trade from MT5 to another MT5 terminal
+        CopyFromMT5toMT5(OrderTicket());
+    }
+}
+
+// Entry point of the program
+int OnInit()
+{
+    // Initialize trade copying settings
+    // ...
+
+    return(INIT_SUCCEEDED);
+}
+
+// Program termination function
+void OnDeinit(const int reason)
+{
+    // Clean up and release resources
+    // ...
+}
